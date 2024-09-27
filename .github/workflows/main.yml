@@ -31,10 +31,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Heroku
+      - name: Deploy to Heroku using Heroku API
         run: |
-          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-          echo "Deploying to Heroku..."
+          echo "Deploying to Heroku using API..."
+          curl https://cli-assets.heroku.com/install.sh | sh
+          heroku auth:token | heroku git:remote --app ${{ secrets.HEROKU_APP_NAME }}
           git push heroku main
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
