@@ -24,9 +24,9 @@ jobs:
       - name: Run tests
         run: mvn test
 
-  deploy:  # This must be at the same level as build
+  deploy:
     runs-on: ubuntu-latest
-    needs: build  # The 'deploy' job runs only if the 'build' job succeeds
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,7 +36,7 @@ jobs:
 
       - name: Authenticate with Heroku
         run: |
-          echo "$HEROKU_API_KEY" | heroku auth:token
+          echo "$HEROKU_API_KEY" | heroku auth:login --with-token
           heroku whoami
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
